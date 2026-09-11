@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>TrailMark reads your heart rate, steps and energy on your wrist.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>TrailMark saves your workouts to the Health app.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>TrailMark records voice memos on your wrist.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>TrailMark reads motion data to detect your cadence and activity.</string>
+</dict>
+</plist>

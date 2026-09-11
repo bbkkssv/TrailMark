@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>TrailMark records short video memos for your field journal.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>TrailMark reads your steps, distance, energy, heart rate and sleep to show your daily activity and recovery.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>TrailMark saves your recorded activities to the Health app as workouts.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>TrailMark records the route of your journey and geotags the memos you capture.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>TrailMark records voice memos for your field journal.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>TrailMark reads motion data to detect your cadence and activity.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to pick a video on the Simulator, which has no camera. (Optional - device-only flow doesn't need it.)</string>
+</dict>
+</plist>
