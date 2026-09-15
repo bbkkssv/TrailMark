@@ -8,6 +8,8 @@ struct ContentView: View {
         TabView {
             TodayDashboardView()
                 .tabItem { Label("Today", systemImage: "sun.max.fill") }
+            FieldJournalView()
+                .tabItem { Label("Journal", systemImage: "waveform") }
         }
         .task {
             await model.health.requestAuthorization()
