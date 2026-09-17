@@ -75,6 +75,13 @@ struct MemoRow: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
+                } else if memo.kind == .audio {
+                    AudioWaveformView(
+                        url: model.media.url(for: memo),
+                        barCount: 12,
+                        tint: .teal
+                    )
+                    .padding(8)
                 } else {
                     Image(systemName: memo.kind.symbolName)
                         .foregroundStyle(.secondary)

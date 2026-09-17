@@ -17,13 +17,11 @@ struct RecordAudioView: View {
                     .font(.system(size: 56, design: .rounded)).monospacedDigit()
                     .contentTransition(.numericText())
 
-                Image(
-                    systemName: recorder.isRecording ?
-                    "waveform.circle.fill" : "mic.circle"
+                LiveRecordingWaveformView(
+                    level: CGFloat(recorder.level),
+                    isRecording: recorder.isRecording
                 )
-                .font(.system(size: 96))
-                .foregroundStyle(recorder.isRecording ? .red : .secondary)
-                .symbolEffect(.pulse, isActive: recorder.isRecording)
+                .frame(width: 112, height: 112)
 
                 Spacer()
 
@@ -56,7 +54,7 @@ struct RecordAudioView: View {
             .task(id: recorder.isRecording) {
                 while recorder.isRecording && !Task.isCancelled {
                     recorder.tick()
-                    try? await Task.sleep(for: .seconds(0.5))
+                    try? await Task.sleep(for: .seconds(0.1))
                 }
             }
         }
@@ -82,5 +80,44 @@ struct RecordAudioView: View {
         let seconds = Int(interval) % 60
 
         return String(format: "%02d:%02d", minutes, seconds) // 00:00
+    }
+}
+
+private struct LiveRecordingWaveformView: View {
+    let level: CGFloat
+    let isRecording: Bool
+
+    @State private var levels = Array(repeating: CGFloat(0.2), count: 7)
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(isRecording ? Color.red : Color.secondary)
+
+            if isRecording {
+                HStack(alignment: .center, spacing: 7) {
+                    ForEach(levels.indices, id: \.self) { index in
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(.white)
+                            .frame(width: 7, height: max(22, 72 * levels[index]))
+                    }
+                }
+                .animation(.easeOut(duration: 0.1), value: levels)
+            } else {
+                Image(systemName: "mic.fill")
+                    .font(.system(size: 44))
+                    .foregroundStyle(.white)
+            }
+        }
+        .onChange(of: level) { _, newValue in
+            guard isRecording else { return }
+            levels.removeFirst()
+            levels.append(min(max(newValue, 0.12), 1))
+        }
+        .onChange(of: isRecording) { _, newValue in
+            if !newValue {
+                levels = Array(repeating: CGFloat(0.2), count: levels.count)
+            }
+        }
     }
 }

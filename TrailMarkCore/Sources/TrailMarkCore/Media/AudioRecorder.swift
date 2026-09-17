@@ -7,6 +7,7 @@ import Observation
 public final class AudioRecorder {
     public private(set) var isRecording = false
     public private(set) var elapsedTime: TimeInterval = 0
+    public private(set) var level: Float = 0
     public private(set) var lastRecordingURL: URL?
 
     private var recorder: AVAudioRecorder?
@@ -28,12 +29,14 @@ public final class AudioRecorder {
             ]
             
             let recorder = try AVAudioRecorder(url: url, settings: settings)
+            recorder.isMeteringEnabled = true
             recorder.record()
             
             self.recorder = recorder
             self.startDate = Date()
             self.isRecording = true
             self.elapsedTime = 0
+            self.level = 0
             
         }
     
@@ -48,6 +51,7 @@ public final class AudioRecorder {
             self.isRecording = false
             self.lastRecordingURL = url
             self.elapsedTime = duration
+            self.level = 0
 
             try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
         
@@ -57,6 +61,11 @@ public final class AudioRecorder {
         public func tick() {
         guard isRecording, let startDate else { return }
         elapsedTime = Date().timeIntervalSince(startDate)
+        recorder?.updateMeters()
+
+        let averagePower = recorder?.averagePower(forChannel: 0) ?? -80
+        let normalizedPower = max(0, min(1, (averagePower + 55) / 55))
+        level = pow(normalizedPower, 1.6)
     }
 
         private func configureSession() throws {
